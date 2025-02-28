@@ -17,16 +17,17 @@ wss.on('connection' , ( ws) =>{
 
     ws.on('message', (message) => {
         console.log(`Received: ${message}`);
-        ws.send(`You sent -> ${message}`);
-    });
+        clients.add(ws);
+        
+        // broadfcast to all
+        clients.forEach(client => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
 
-    clients.forEach(client => {
-        if (client !== ws && client.readyState === WebSocket.OPEN) {
-            client.send(message);
-        }
     });
-
-    
+ 
     ws.on('close', () => {
         console.log("User disconnected");
         clients.delete(ws);

@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "docs",
+    "site": "private-messager",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

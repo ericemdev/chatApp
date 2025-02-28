@@ -1,7 +1,12 @@
 <script>
+  import Auth from './components/auth.svelte';
+  import './style.css';
+  
   let socket = new WebSocket('ws://localhost:4000');  
   let messages = []; 
   let newMessage = "";
+
+  $: messages = [...messages]; 
 
   socket.onopen = () => {
     console.log("Connected to WebSocket server");
@@ -18,17 +23,18 @@
 
   function sendMessage() {
     if (newMessage.trim()) {
-      socket.send(newMessage);
+      socket.send(newMessage); 
+      messages = [...messages, `You: ${newMessage}`]; 
       newMessage = "";
     }
   }
-  import './style.css';
 </script>
 
 <main>
 
   <div class="flex flex-col items-center p-6 min-h-screen bg-gray-100">
     <h1 class="text-2xl font-bold mb-4">Live Chat</h1>
+    <Auth />
     
     <div class="w-full max-w-md p-4 bg-white shadow-md rounded-lg">
         <div class="h-60 overflow-y-auto mb-4 border p-2 rounded">
